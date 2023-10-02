@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ejemplo1.Utils;
+using Ejemplo1.Models;
 
 namespace Ejemplo1.Controllers
 {
@@ -9,7 +10,7 @@ namespace Ejemplo1.Controllers
         // GET: ProductoController
         public ActionResult Index()
         {
-           
+
             return View(Utils.Utils.ListaProductos);
         }
 
@@ -24,6 +25,13 @@ namespace Ejemplo1.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(Producto producto)
+        {
+            return View();
+        }
+
 
 
         // GET: ProductoController/Edit/5
