@@ -8,44 +8,79 @@ namespace Ejemplo1.Controllers
     public class ProductoController : Controller
     {
         // GET: ProductoController
-        public ActionResult Index()
+        public IActionResult Index()
         {
 
             return View(Utils.Utils.ListaProductos);
         }
 
         // GET: ProductoController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int IdProducto)
         {
-            return View();
+            Producto producto = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
+            if (producto != null)
+            {
+                return View(producto);
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: ProductoController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Producto producto)
+        public IActionResult Create(Producto producto)
         {
-            return View();
+            int i = Utils.Utils.ListaProductos.Count() + 1;
+            producto.IdProducto = i;
+            Utils.Utils.ListaProductos.Add(producto);
+            return RedirectToAction("Index");
         }
 
 
 
         // GET: ProductoController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int IdProducto)
         {
+            Producto producto = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
+            if (producto != null)
+            {
+                return View(producto);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Producto producto)
+        {
+            Producto producto2 = Utils.Utils.ListaProductos.Find(x => x.IdProducto == producto.IdProducto);
+            if (producto2 != null)
+            {
+                producto2.Nombre=producto.Nombre;
+                producto2.Descripcion = producto.Descripcion;
+                producto2.cantidad=producto.cantidad;
+
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
-       
+
+
 
         // GET: ProductoController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int IdProducto)
         {
-            return View();
+            Producto producto2 = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
+            if (producto2 != null)
+            {
+                Utils.Utils.ListaProductos.Remove(producto2);
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
 
      
