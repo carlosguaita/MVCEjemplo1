@@ -2,16 +2,36 @@
 using Microsoft.AspNetCore.Mvc;
 using Ejemplo1.Utils;
 using Ejemplo1.Models;
+using Ejemplo1.Services;
 
 namespace Ejemplo1.Controllers
 {
     public class ProductoController : Controller
     {
-        // GET: ProductoController
-        public IActionResult Index()
-        {
 
-            return View(Utils.Utils.ListaProductos);
+        private readonly IAPIService _apiService;
+
+        public ProductoController(IAPIService apiService)
+        {
+            _apiService = apiService;
+        }
+
+
+            // GET: ProductoController
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                List<Producto> productos = await _apiService.GetProductos();
+                return View(productos);
+
+            }
+            catch(Exception ex)
+            {
+                return View(new List<Producto>());
+
+            }
+           
         }
 
         // GET: ProductoController/Details/5
