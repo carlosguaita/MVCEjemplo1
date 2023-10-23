@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Ejemplo1.Utils;
 using Ejemplo1.Models;
-using Ejemplo1.Services;
+using Ejemplo1.Service;
 
 namespace Ejemplo1.Controllers
 {
@@ -20,24 +20,14 @@ namespace Ejemplo1.Controllers
             // GET: ProductoController
         public async Task<IActionResult> Index()
         {
-            try
-            {
-                List<Producto> productos = await _apiService.GetProductos();
-                return View(productos);
-
-            }
-            catch(Exception ex)
-            {
-                return View(new List<Producto>());
-
-            }
-           
+            List<Producto> productos = await _apiService.GetProductos();
+            return View(productos);
         }
 
         // GET: ProductoController/Details/5
-        public IActionResult Details(int IdProducto)
+        public async Task<IActionResult> Details(int IdProducto)
         {
-            Producto producto = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
+            Producto producto = await _apiService.GetProducto(IdProducto);
             if (producto != null)
             {
                 return View(producto);
@@ -52,20 +42,18 @@ namespace Ejemplo1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Producto producto)
+        public async Task<IActionResult> Create(Producto producto)
         {
-            int i = Utils.Utils.ListaProductos.Count() + 1;
-            producto.IdProducto = i;
-            Utils.Utils.ListaProductos.Add(producto);
+           Producto producto1 = await _apiService.PostProducto(producto);
             return RedirectToAction("Index");
         }
 
 
 
         // GET: ProductoController/Edit/5
-        public IActionResult Edit(int IdProducto)
+        public async Task<IActionResult> Edit(int IdProducto)
         {
-            Producto producto = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
+            Producto producto = await _apiService.GetProducto(IdProducto);
             if (producto != null)
             {
                 return View(producto);
@@ -74,14 +62,12 @@ namespace Ejemplo1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Producto producto)
+        public async Task<IActionResult> Edit(Producto producto)
         {
-            Producto producto2 = Utils.Utils.ListaProductos.Find(x => x.IdProducto == producto.IdProducto);
+            Producto producto2 = await _apiService.GetProducto(producto.IdProducto);
             if (producto2 != null)
             {
-                producto2.Nombre=producto.Nombre;
-                producto2.Descripcion = producto.Descripcion;
-                producto2.cantidad=producto.cantidad;
+                Producto producto3 = await _apiService.PutProducto(producto.IdProducto, producto);
 
                 return RedirectToAction("Index");
             }
@@ -92,12 +78,11 @@ namespace Ejemplo1.Controllers
 
 
         // GET: ProductoController/Delete/5
-        public IActionResult Delete(int IdProducto)
+        public async Task<IActionResult> Delete(int IdProducto)
         {
-            Producto producto2 = Utils.Utils.ListaProductos.Find(x => x.IdProducto == IdProducto);
-            if (producto2 != null)
+            Boolean producto2 = await _apiService.DeleteProducto(IdProducto);
+            if (producto2 != false)
             {
-                Utils.Utils.ListaProductos.Remove(producto2);
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
