@@ -4,20 +4,34 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<form method="post">
-    <div class="mb-3">
-        <label>Nombre</label>
-        <input asp-for="Nombre" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label>Descripción</label>
-        <input asp-for="Descripcion" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label>Cantidad</label>
-        <input asp-for="cantidad" class="form-control">
-    </div>
+<form method="post" enctype="multipart/form-data">
 
+    <div class="row">
+        <div class="col-2">
+            <img src="@Model.urlImage" height="250" width="185"
+            style="border-radius: 5px; border: 1px solid #bbb9b9;"/>
+        </div>
+        <div class="col-10">
+            <div class="mb-3">
+                <label>Nombre</label>
+                <input asp-for="Nombre" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Descripción</label>
+                <input asp-for="Descripcion" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Cantidad</label>
+                <input asp-for="cantidad" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label>Imagen</label>
+                <input type=file name="file" asp-for="urlImage" class="form-control">
+            </div>
+        </div>
+           
+       
+    </div>
     <div class="row col-6">
         <div class="col-6 col-md-6">
             <button type="submit" class="btn btn-primary">Guardar</button>

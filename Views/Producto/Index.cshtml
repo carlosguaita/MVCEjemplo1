@@ -16,6 +16,7 @@
     <thead>
         <tr>
             <th scope="col">Id</th>
+            <th scope="col">Imagen</th>
             <th scope="col">Nombre</th>
             <th scope="col">Descripción</th>
             <th scope="col">Cantidad</th>
@@ -28,6 +29,7 @@
     
             <tr>
                 <th scope="row">@item.IdProducto</th>
+                <td><img src="@item.urlImage" height="100" width="100"></td>
                 <td>@item.Nombre</td>
                 <td>@item.Descripcion</td>
                 <td>@item.cantidad</td>

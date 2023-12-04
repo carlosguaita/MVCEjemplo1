@@ -5,7 +5,7 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label>Nombre</label>
         <input asp-for="Nombre" class="form-control">
@@ -17,6 +17,10 @@
     <div class="mb-3">
         <label>Cantidad</label>
         <input asp-for="cantidad" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>Imagen</label>
+        <input type=file name="file" asp-for="urlImage" class="form-control">
     </div>
 
     <div class="row col-6">
